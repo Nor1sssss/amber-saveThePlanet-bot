@@ -5,24 +5,23 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 TOKEN = os.getenv("BOT_TOKEN")
 print("TOKEN:", TOKEN)
 
-# 👉 ВОТ СЮДА
 if not TOKEN:
     raise ValueError("BOT_TOKEN не найден в переменных окружения")
 
-# 👉 И только потом создаём бота
 bot = telebot.TeleBot(TOKEN)
-# ===================== КОМАНДА /start =====================
+
+# ===================== /start =====================
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
 
     keyboard = InlineKeyboardMarkup()
 
-    btn1 = InlineKeyboardButton("♻️ Пластик", callback_data="plastic")
-    btn2 = InlineKeyboardButton("📄 Бумага", callback_data="paper")
-    btn3 = InlineKeyboardButton("🍾 Стекло", callback_data="glass")
-
-    keyboard.add(btn1, btn2, btn3)
+    keyboard.add(
+        InlineKeyboardButton("♻️ Пластик", callback_data="plastic"),
+        InlineKeyboardButton("📄 Бумага", callback_data="paper"),
+        InlineKeyboardButton("🍾 Стекло", callback_data="glass")
+    )
 
     bot.send_message(
         message.chat.id,
@@ -39,45 +38,34 @@ def callback_handler(call):
 
     bot.answer_callback_query(call.id)
 
-# ===================== ОБРАБОТКА НАЖАТИЯ КНОПОК =====================
+    chat_id = call.message.chat.id
 
-
-    # если нажали кнопку Пластик
     if call.data == "plastic":
-
-        bot.send_message(
-            call.message.chat.id,
+        bot.send_message(chat_id,
             "♻️ Пластик:\n\n"
             "1️⃣ Ополосни упаковку.\n"
             "2️⃣ Сними крышку.\n"
             "3️⃣ Сожми бутылку.\n"
-            "4️⃣ Выброси в контейнер для пластика."
+            "4️⃣ В контейнер для пластика."
         )
 
-    # если нажали кнопку Бумага
     elif call.data == "paper":
-
-        bot.send_message(
-            call.message.chat.id,
+        bot.send_message(chat_id,
             "📄 Бумага:\n\n"
             "1️⃣ Убедись, что она сухая.\n"
             "2️⃣ Убери пластиковые элементы.\n"
-            "3️⃣ Выброси в контейнер для макулатуры."
+            "3️⃣ В макулатуру."
         )
 
-    # если нажали кнопку Стекло
     elif call.data == "glass":
-
-        bot.send_message(
-            call.message.chat.id,
+        bot.send_message(chat_id,
             "🍾 Стекло:\n\n"
             "1️⃣ Промой бутылку.\n"
             "2️⃣ Сними крышку.\n"
-            "3️⃣ Выброси в контейнер для стекла."
+            "3️⃣ В контейнер стекла."
         )
 
-
-# ===================== КОМАНДА /eco =====================
+# ===================== /eco =====================
 
 @bot.message_handler(commands=['eco'])
 def eco_tips(message):
@@ -91,6 +79,5 @@ def eco_tips(message):
         "• Сортируй отходы"
     )
 
-
 print("Эко-бот в действии 🌍")
-bot.polling()
+bot.infinity_polling()
