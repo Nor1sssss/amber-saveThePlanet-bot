@@ -34,11 +34,27 @@ def send_welcome(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):
 
-    print("🔥 CALLBACK WORKS:", call.data)
+    try:
+        print("🔥 CALLBACK:", call.data)
 
-    bot.answer_callback_query(call.id)
+        bot.answer_callback_query(call.id)
 
-    chat_id = call.message.chat.id
+        chat_id = call.message.chat.id
+
+        if call.data == "plastic":
+            bot.send_message(chat_id, "♻️ Пластик")
+
+        elif call.data == "paper":
+            bot.send_message(chat_id, "📄 Бумага")
+
+        elif call.data == "glass":
+            bot.send_message(chat_id, "🍾 Стекло")
+
+        else:
+            print("❌ UNKNOWN CALLBACK:", call.data)
+
+    except Exception as e:
+        print("💥 CALLBACK ERROR:", e)
 
     if call.data == "plastic":
         bot.send_message(chat_id,
