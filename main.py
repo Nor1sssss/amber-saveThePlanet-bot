@@ -1,11 +1,6 @@
-import telebot
 import os
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-
-# Создаем бота
-# TOKEN заменить на свой
-bot = telebot.TeleBot(os.getenv("BOT_TOKEN"))
-
+print("ENV:", os.environ)
+print("TOKEN:", os.getenv("BOT_TOKEN"))
 
 # ===================== КОМАНДА /start =====================
 
