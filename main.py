@@ -1,7 +1,16 @@
+import telebot
 import os
-print("ENV:", os.environ)
-print("TOKEN:", os.getenv("BOT_TOKEN"))
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+TOKEN = os.getenv("BOT_TOKEN")
+print("TOKEN:", TOKEN)
+
+# 👉 ВОТ СЮДА
+if not TOKEN:
+    raise ValueError("BOT_TOKEN не найден в переменных окружения")
+
+# 👉 И только потом создаём бота
+bot = telebot.TeleBot(TOKEN)
 # ===================== КОМАНДА /start =====================
 
 @bot.message_handler(commands=['start'])
