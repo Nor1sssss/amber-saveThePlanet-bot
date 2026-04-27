@@ -15,42 +15,32 @@ bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    print(message)  # вывод в консоль (для проверки)
-    bot.reply_to(
-        message,
-        "Привет! 🌍\n"
-        "Я эко-бот.\n"
-        "Помогаю узнать, как правильно сортировать отходы."
-    )
 
-    # создаем клавиатуру (кнопки под сообщением)
     keyboard = InlineKeyboardMarkup()
 
-    # создаем кнопки
     btn1 = InlineKeyboardButton("♻️ Пластик", callback_data="plastic")
     btn2 = InlineKeyboardButton("📄 Бумага", callback_data="paper")
     btn3 = InlineKeyboardButton("🍾 Стекло", callback_data="glass")
 
-    # добавляем кнопки в клавиатуру
-    keyboard.add(btn1)
-    keyboard.add(btn2)
-    keyboard.add(btn3)
+    keyboard.add(btn1, btn2, btn3)
 
-    # отправляем сообщение с кнопками
     bot.send_message(
         message.chat.id,
         "Выбери тип отходов:",
         reply_markup=keyboard
     )
 
-
-# ===================== ОБРАБОТКА НАЖАТИЯ КНОПОК =====================
+# ===================== CALLBACK =====================
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):
 
-    # подтверждаем нажатие кнопки (убираем "часики")
+    print("🔥 CALLBACK WORKS:", call.data)
+
     bot.answer_callback_query(call.id)
+
+# ===================== ОБРАБОТКА НАЖАТИЯ КНОПОК =====================
+
 
     # если нажали кнопку Пластик
     if call.data == "plastic":
