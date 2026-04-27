@@ -96,4 +96,4 @@ def eco_tips(message):
     )
 
 print("Эко-бот в действии 🌍")
-bot.infinity_polling()
+bot.polling(none_stop=True, interval=0)
